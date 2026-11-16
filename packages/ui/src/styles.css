@@ -5,11 +5,12 @@
 
 .pv-root {
   /* Typography ---------------------------------------------------------- */
-  --pv-font-pixel: 'Pixelify Sans', 'VT323', 'Courier New', monospace;
+  --pv-font-pixel:
+    'Pixelify Sans', 'Fusion Pixel 12px Proportional SC', 'VT323', 'Courier New',
+    monospace;
   --pv-font-body:
-    'Pixelify Sans', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC',
-    sans-serif;
-
+    'Pixelify Sans', 'Fusion Pixel 12px Proportional SC', 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
   /* Palette ------------------------------------------------------------- */
   --pv-ink: #3a2414;
   --pv-ink-soft: #6b4a2c;
@@ -49,6 +50,17 @@
   line-height: 1.5;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
+}
+
+/* Chinese UI: Fusion Pixel keeps CJK glyphs blocky and legible. The library
+   does not bundle the font file; import it in the app that uses zh-CN. */
+.pv-root[lang='zh-CN'] {
+  --pv-font-pixel:
+    'Fusion Pixel 12px Proportional SC', 'Pixelify Sans', 'VT323', 'Courier New',
+    monospace;
+  --pv-font-body:
+    'Fusion Pixel 12px Proportional SC', 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', 'Noto Sans SC', sans-serif;
 }
 
 .pv-root[data-pv-theme='night'] {
@@ -2180,6 +2192,468 @@ button.pv-steps__hit:focus-visible {
 
 .pv-skeleton--animated .pv-skeleton__bar {
   animation: pv-skeleton-shimmer 1.5s steps(12, end) infinite;
+}
+
+/* ==========================================================================
+   Avatar
+   ========================================================================== */
+
+.pv-avatar {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex: none;
+  border: 2px solid var(--pv-wood-1);
+  background: linear-gradient(145deg, #fff4cf, #e9d29a);
+  box-shadow:
+    inset 2px 2px 0 #fff9df,
+    inset -2px -2px 0 #c89a5c,
+    0 2px 0 rgba(57, 33, 17, 0.24);
+  image-rendering: pixelated;
+}
+
+.pv-avatar--sm {
+  width: 32px;
+  height: 32px;
+}
+
+.pv-avatar--lg {
+  width: 64px;
+  height: 64px;
+}
+
+.pv-avatar__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  image-rendering: pixelated;
+}
+
+.pv-avatar__fallback {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  background:
+    repeating-linear-gradient(45deg, rgba(122, 74, 34, 0.06) 0 5px, transparent 5px 10px),
+    linear-gradient(145deg, #fff4cf, #e9d29a);
+  color: var(--pv-ink);
+  font-family: var(--pv-font-pixel);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+.pv-avatar--sm .pv-avatar__fallback {
+  font-size: 12px;
+}
+
+.pv-avatar--lg .pv-avatar__fallback {
+  font-size: 25px;
+}
+
+.pv-avatar__status {
+  position: absolute;
+  right: -4px;
+  bottom: -4px;
+  width: 11px;
+  height: 11px;
+  border: 2px solid var(--pv-wood-0);
+  background: var(--pv-wood-4);
+  box-shadow: 0 0 0 2px var(--pv-paper);
+}
+
+.pv-avatar__status--online {
+  background: var(--pv-green);
+}
+
+.pv-avatar__status--away {
+  background: var(--pv-gold);
+}
+
+.pv-avatar__status--busy {
+  background: var(--pv-red);
+}
+
+.pv-avatar__status--offline {
+  background: var(--pv-wood-4);
+}
+
+/* ==========================================================================
+   Sparkline
+   ========================================================================== */
+
+.pv-sparkline {
+  --pv-sparkline-color: var(--pv-green);
+
+  display: inline-block;
+  min-width: 0;
+  color: var(--pv-sparkline-color);
+}
+
+.pv-sparkline--gold {
+  --pv-sparkline-color: var(--pv-gold-deep);
+}
+
+.pv-sparkline--blue {
+  --pv-sparkline-color: var(--pv-blue);
+}
+
+.pv-sparkline--red {
+  --pv-sparkline-color: var(--pv-red);
+}
+
+.pv-sparkline--neutral {
+  --pv-sparkline-color: var(--pv-wood-3);
+}
+
+.pv-sparkline__svg {
+  display: block;
+  width: 100%;
+  overflow: visible;
+  shape-rendering: crispEdges;
+}
+
+.pv-sparkline__baseline {
+  stroke: currentColor;
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+  opacity: 0.2;
+}
+
+.pv-sparkline__area {
+  fill: currentColor;
+  opacity: 0.14;
+}
+
+.pv-sparkline__line {
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+}
+
+.pv-sparkline__bar {
+  fill: currentColor;
+  opacity: 0.5;
+}
+
+.pv-sparkline__bar--last {
+  opacity: 0.95;
+}
+
+.pv-sparkline__last {
+  fill: currentColor;
+}
+
+/* ==========================================================================
+   Rating
+   ========================================================================== */
+
+.pv-rating {
+  --pv-rating-star: 30px;
+
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.pv-rating--sm {
+  --pv-rating-star: 24px;
+}
+
+.pv-rating--lg {
+  --pv-rating-star: 38px;
+}
+
+.pv-rating__label {
+  color: var(--pv-ink);
+  font-family: var(--pv-font-pixel);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.pv-rating__stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+}
+
+.pv-rating__star {
+  display: grid;
+  place-items: center;
+  width: var(--pv-rating-star);
+  height: var(--pv-rating-star);
+  flex: none;
+  padding: 2px;
+  border: 0;
+  background: transparent;
+  color: #a98b5a;
+  cursor: pointer;
+  transition:
+    color 100ms ease,
+    transform 100ms steps(2, end),
+    filter 100ms ease;
+}
+
+.pv-rating__star[data-filled='true'] {
+  color: var(--pv-gold-deep);
+  filter: drop-shadow(1px 1px 0 rgba(255, 248, 207, 0.85));
+}
+
+.pv-rating__star:hover:not(:disabled) {
+  transform: translateY(-2px) scale(1.06);
+}
+
+.pv-rating__star:focus-visible {
+  outline: 3px dashed var(--pv-gold);
+  outline-offset: 1px;
+}
+
+.pv-rating__star:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pv-rating__star--static {
+  cursor: default;
+}
+
+.pv-rating--readonly .pv-rating__star,
+.pv-rating--readonly .pv-rating__star:hover {
+  transform: none;
+}
+
+.pv-rating__value {
+  color: var(--pv-ink-soft);
+  font-family: var(--pv-font-pixel);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================================================
+   Combobox
+   ========================================================================== */
+
+.pv-combobox {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.pv-combobox__label {
+  color: var(--pv-ink);
+  font-family: var(--pv-font-pixel);
+  font-size: 14px;
+  font-weight: 600;
+  text-shadow: 1px 1px 0 #fff2c4;
+}
+
+.pv-combobox__control {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.pv-combobox__icon {
+  position: absolute;
+  left: 10px;
+  display: inline-flex;
+  color: var(--pv-wood-2);
+  pointer-events: none;
+}
+
+.pv-combobox__input {
+  width: 100%;
+  border: 2px solid var(--pv-wood-1);
+  padding: 10px 34px 10px 34px;
+  background: linear-gradient(180deg, #fff8df, #f7eac4);
+  color: var(--pv-ink);
+  font-family: var(--pv-font-pixel);
+  font-size: 14.5px;
+  line-height: 1.3;
+  box-shadow:
+    inset 2px 2px 0 rgba(122, 74, 34, 0.18),
+    inset -1px -1px 0 #fffdf0;
+  border-radius: 0;
+  transition:
+    border-color 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.pv-combobox__input::placeholder {
+  color: #a58357;
+  opacity: 1;
+}
+
+.pv-combobox__input:hover:not(:disabled) {
+  border-color: var(--pv-wood-2);
+}
+
+.pv-combobox__input:focus {
+  outline: none;
+  border-color: var(--pv-gold-deep);
+  box-shadow:
+    inset 2px 2px 0 rgba(122, 74, 34, 0.14),
+    0 0 0 2px var(--pv-gold);
+}
+
+.pv-combobox__input[aria-expanded='true'] {
+  border-color: var(--pv-gold-deep);
+}
+
+.pv-combobox__input:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.pv-combobox--disabled {
+  opacity: 0.8;
+}
+
+.pv-combobox__chevron {
+  position: absolute;
+  right: 10px;
+  display: inline-flex;
+  color: var(--pv-ink-soft);
+  pointer-events: none;
+  transition: transform 120ms steps(2, end);
+}
+
+.pv-combobox__input[aria-expanded='true'] ~ .pv-combobox__chevron {
+  transform: rotate(180deg);
+}
+
+.pv-combobox__clear {
+  position: absolute;
+  right: 6px;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 2px solid transparent;
+  background: transparent;
+  color: var(--pv-ink-soft);
+  cursor: pointer;
+}
+
+.pv-combobox__clear:hover {
+  border-color: rgba(86, 51, 26, 0.34);
+  background: rgba(255, 255, 255, 0.4);
+  color: var(--pv-ink);
+}
+
+.pv-combobox__clear:focus-visible {
+  outline: 3px dashed var(--pv-gold);
+  outline-offset: 1px;
+}
+
+.pv-combobox__help {
+  color: var(--pv-ink-soft);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.pv-combobox__help--error {
+  color: var(--pv-red-deep);
+  font-weight: 600;
+}
+
+.pv-combobox__menu {
+  position: fixed;
+  z-index: 1450;
+  right: auto;
+  bottom: auto;
+  margin: 0;
+  padding: 4px;
+  overflow-y: auto;
+  border: 2px solid var(--pv-wood-0);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.25), transparent 12%),
+    linear-gradient(180deg, #fbf0cf, #efdaa7);
+  box-shadow:
+    inset 0 0 0 2px var(--pv-wood-3),
+    inset 0 0 0 4px #fff3cb,
+    0 6px 0 rgba(43, 26, 13, 0.35),
+    0 14px 22px rgba(27, 16, 7, 0.22);
+  animation: pv-fade 90ms steps(2, end);
+}
+
+.pv-combobox__menu[data-placement='top'] {
+  transform: translateY(-100%);
+}
+
+.pv-combobox__option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 2px solid transparent;
+  color: var(--pv-ink);
+  font-size: 14px;
+  line-height: 1.35;
+  cursor: pointer;
+}
+
+.pv-combobox__option[data-active='true'] {
+  border-color: #3d5e25;
+  background: linear-gradient(180deg, #86b95b, #5d8c3b);
+  color: #fff8d8;
+  text-shadow: 1px 1px 0 #35501f;
+}
+
+.pv-combobox__option--disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+  background: transparent;
+  color: var(--pv-ink-soft);
+  text-shadow: none;
+}
+
+.pv-combobox__option-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.pv-combobox__option-label {
+  min-width: 0;
+}
+
+.pv-combobox__option-description {
+  color: var(--pv-ink-soft);
+  font-family: var(--pv-font-body);
+  font-size: 11px;
+  text-shadow: none;
+}
+
+.pv-combobox__option[data-active='true'] .pv-combobox__option-description {
+  color: #e7f4ce;
+}
+
+.pv-combobox__check {
+  display: inline-flex;
+  flex: none;
+}
+
+.pv-combobox__empty {
+  padding: 12px;
+  color: var(--pv-ink-soft);
+  font-size: 13px;
+  text-align: center;
 }
 
 /* ==========================================================================

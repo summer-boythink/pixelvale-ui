@@ -10,7 +10,7 @@ import { createPortal } from 'react-dom';
 import { cx } from '../lib/cx';
 import { lockBodyScroll } from '../lib/scrollLock';
 import { useLatest } from '../lib/useLatest';
-import { usePortalHost } from './PixelValeProvider';
+import { useLocale, usePortalHost } from './PixelValeProvider';
 import { IconButton } from './Button';
 import { PixelIcon } from './PixelIcon';
 
@@ -109,6 +109,7 @@ export function Dialog({
   const descriptionId = `pv-dialog-${generatedId}-description`;
   const panelRef = useRef<HTMLDivElement>(null);
   const portalHost = usePortalHost();
+  const { t } = useLocale();
   const onOpenChangeRef = useLatest(onOpenChange);
   const dismissableRef = useLatest(dismissable);
 
@@ -218,7 +219,7 @@ export function Dialog({
         role="dialog"
         aria-modal="true"
         aria-labelledby={title ? titleId : undefined}
-        aria-label={!title ? (ariaLabel ?? 'Dialog') : undefined}
+        aria-label={!title ? (ariaLabel ?? t('dialogLabel')) : undefined}
         aria-describedby={description ? descriptionId : undefined}
         tabIndex={-1}
         className={cx('pv-dialog', 'pv-panel', `pv-dialog--${size}`, className)}
@@ -241,7 +242,7 @@ export function Dialog({
           </div>
           {onOpenChange ? (
             <IconButton
-              label="Close dialog"
+              label={t('closeDialog')}
               variant="ghost"
               size="sm"
               className="pv-dialog__close"

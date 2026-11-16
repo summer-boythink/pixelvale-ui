@@ -1,6 +1,7 @@
 import '@fontsource/pixelify-sans/latin-400.css';
 import '@fontsource/pixelify-sans/latin-600.css';
 import '@fontsource/pixelify-sans/latin-700.css';
+import '@fontsource/fusion-pixel-12px-proportional-sc/400.css';
 import '../../../packages/ui/src/styles.css';
 import './demo.css';
 

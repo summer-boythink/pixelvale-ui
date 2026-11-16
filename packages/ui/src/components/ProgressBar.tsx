@@ -8,6 +8,7 @@ import {
 } from 'react';
 import { cx } from '../lib/cx';
 import { usePrefersReducedMotion } from '../lib/usePrefersReducedMotion';
+import { useLocale } from './PixelValeProvider';
 import { PixelSprite } from './PixelSprite';
 
 export type ProgressVariant = 'health' | 'energy' | 'xp' | 'gold' | 'neutral';
@@ -34,6 +35,7 @@ export function ProgressBar({
   className,
   ...rest
 }: ProgressBarProps) {
+  const { t } = useLocale();
   const safeMax = max > 0 ? max : 1;
   const clamped = Math.min(safeMax, Math.max(0, Number.isFinite(value) ? value : 0));
   const percentage = (clamped / safeMax) * 100;
@@ -66,7 +68,7 @@ export function ProgressBar({
         aria-valuemin={0}
         aria-valuemax={safeMax}
         aria-valuenow={Math.round(clamped)}
-        aria-label={ariaLabel ?? (typeof label === 'string' ? label : 'Progress')}
+        aria-label={ariaLabel ?? (typeof label === 'string' ? label : t('progress'))}
       >
         <span
           className="pv-progress__fill"
@@ -133,23 +135,34 @@ export interface CoinDisplayProps extends Omit<
   locale?: string;
 }
 
+function createCoinFormatter(locale: string): Intl.NumberFormat {
+  try {
+    return new Intl.NumberFormat(locale, { maximumFractionDigits: 0 });
+  } catch {
+    return new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
+  }
+}
+
 export function CoinDisplay({
   value,
   label,
   size = 'md',
   animate = true,
-  locale = 'en-US',
+  locale,
   className,
   ...rest
 }: CoinDisplayProps) {
+  const { locale: uiLocale, t } = useLocale();
   const displayValue = useAnimatedNumber(value, animate);
-  const formatter = new Intl.NumberFormat(locale, { maximumFractionDigits: 0 });
+  const formatter = createCoinFormatter(
+    locale ?? (uiLocale === 'zh-CN' ? 'zh-CN' : 'en-US'),
+  );
   const formatted = formatter.format(displayValue);
 
   return (
     <span
       className={cx('pv-coin', `pv-coin--${size}`, className)}
-      title={`${formatter.format(value)} gold`}
+      title={`${formatter.format(value)} ${t('gold')}`}
       {...rest}
     >
       <span key={value} className="pv-coin__sprite" aria-hidden="true">
@@ -157,7 +170,7 @@ export function CoinDisplay({
       </span>
       {label ? <span className="pv-coin__label">{label}</span> : null}
       <span className="pv-coin__value">{formatted}</span>
-      <span className="pv-sr-only"> gold</span>
+      <span className="pv-sr-only"> {t('gold')}</span>
     </span>
   );
 }

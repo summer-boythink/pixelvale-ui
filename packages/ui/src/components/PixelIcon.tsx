@@ -18,6 +18,8 @@ export type PixelIconName =
   | 'info'
   | 'alert'
   | 'star'
+  | 'star-filled'
+  | 'search'
   | 'heart'
   | 'bolt'
   | 'clock'
@@ -67,6 +69,18 @@ const ICONS: Record<PixelIconName, ReactNode> = {
   ),
   star: (
     <path d="M12 3 14.2 9 20.5 9 15.4 13 17.4 19.7 12 15.8 6.6 19.7 8.6 13 3.5 9 9.8 9Z" />
+  ),
+  'star-filled': (
+    <path
+      d="M12 3 14.2 9 20.5 9 15.4 13 17.4 19.7 12 15.8 6.6 19.7 8.6 13 3.5 9 9.8 9Z"
+      fill="currentColor"
+    />
+  ),
+  search: (
+    <>
+      <path d="M10 3 15 5 17 10 15 15 10 17 5 15 3 10 5 5Z" />
+      <path d="M15 15 21 21" />
+    </>
   ),
   heart: <path d="M12 20 4.5 12.5V8L7 5.5h3L12 8l2-2.5h3L19.5 8v4.5Z" />,
   bolt: <path d="M13 2 5 14h6l-1 8 9-13h-6z" fill="currentColor" />,

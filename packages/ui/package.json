@@ -55,6 +55,9 @@
     "stardew-inspired",
     "typescript",
     "design-system",
-    "accessibility"
+    "accessibility",
+    "i18n",
+    "locale",
+    "chinese"
   ]
 }

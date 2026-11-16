@@ -161,7 +161,7 @@ export function Gallery({ gold, setGold }: GalleryProps) {
   return (
     <section id="shelf" className="demo-section demo-shelf" aria-labelledby="shelf-title">
       <div className="demo-section__head">
-        <p className="demo-kicker">Thirty little pieces</p>
+        <p className="demo-kicker">Thirty-something little pieces</p>
         <h2 id="shelf-title">The component shelf</h2>
         <p>
           Every control below is the real component. Poke the buttons, open the dialog,

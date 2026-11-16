@@ -1,6 +1,7 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 import { cx } from '../lib/cx';
 import { PixelIcon } from './PixelIcon';
+import { useLocale } from './PixelValeProvider';
 
 export interface StepItem {
   value: string;
@@ -33,12 +34,13 @@ export function Steps({
   'aria-label': ariaLabel,
   ...rest
 }: StepsProps) {
+  const { t } = useLocale();
   const currentIndex = steps.findIndex((step) => step.value === current);
 
   return (
     <ol
       className={cx('pv-steps', className)}
-      aria-label={label ?? ariaLabel ?? 'Progress steps'}
+      aria-label={label ?? ariaLabel ?? t('progressSteps')}
       {...rest}
     >
       {steps.map((step, index) => {

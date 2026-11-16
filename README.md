@@ -4,6 +4,9 @@
 
 - 木框、羊皮纸、像素投影、金色描边
 - 动作菜单、折叠面板、原生单选、数量步进、侧边抽屉、步骤条、统计块、骨架屏
+- 可搜索 Combobox、星级评分、像素 Sparkline、头像与状态点
+- 内置 `en` / `zh-CN` 界面语言：读屏文案、数字格式、语言属性同步切换
+- 中文示例站使用 Fusion Pixel 像素字体，汉字与英文界面都保持同一套视觉语言
 - 原创 12×12 像素图标与作物精灵（不含任何游戏素材）
 - WebAudio 合成点击/成功/金币音效，无音频文件
 - 键盘可用的 Tabs、Select、DropdownMenu、Accordion、Inventory、Dialog、Tooltip
@@ -78,13 +81,32 @@ export function App() {
 
 ### 字体
 
-组件库不强制打包字体，默认字体栈为：
+组件库不强制打包字体。默认字体栈为：
 
 ```css
-"Pixelify Sans", "VT323", "Courier New", monospace
+"Pixelify Sans", "Fusion Pixel 12px Proportional SC", "VT323", "Courier New", monospace;
 ```
 
-示例站通过 Fontsource 本地加载 `Pixelify Sans`。你也可以安装任意像素字体，并覆盖：
+示例站通过 Fontsource 本地加载 `Pixelify Sans` 和 `Fusion Pixel 12px Proportional SC`：
+
+```bash
+npm install --save-dev @fontsource/fusion-pixel-12px-proportional-sc
+```
+
+```ts
+import '@fontsource/fusion-pixel-12px-proportional-sc/400.css';
+```
+
+当 `PixelValeProvider` 的 `locale="zh-CN"` 时，根节点会带上 `lang="zh-CN"`，中文界面会自动优先使用 Fusion Pixel：
+
+```css
+.pv-root[lang='zh-CN'] {
+  --pv-font-pixel:
+    'Fusion Pixel 12px Proportional SC', 'Pixelify Sans', 'VT323', monospace;
+}
+```
+
+你也可以安装任意像素字体，并覆盖：
 
 ```css
 .my-farm {
@@ -92,7 +114,40 @@ export function App() {
 }
 ```
 
-中文会自动回退到 `PingFang SC / Microsoft YaHei / Noto Sans SC`，保持可读性。
+字体未加载或某个汉字缺字时，会回退到 `PingFang SC / Microsoft YaHei / Noto Sans SC`，保持可读性。Fusion Pixel 由 [TakWolf](https://github.com/TakWolf/fusion-pixel-font) 制作，使用 OFL-1.1 许可；完整许可见 [`apps/playground/public/FUSION-PIXEL-OFL.txt`](apps/playground/public/FUSION-PIXEL-OFL.txt)，示例站未修改字体文件。
+
+## 中文与 Locale
+
+语言是 Provider 级别的配置，默认 `en`，不会改变组件 Props 或现有英文行为：
+
+```tsx
+<PixelValeProvider locale="zh-CN">
+  <ToastProvider>
+    <Button>种下一颗防风草</Button>
+  </ToastProvider>
+</PixelValeProvider>
+```
+
+可以在应用里读取当前语言，或按 key 覆盖个别内置文案：
+
+```tsx
+const { locale, t } = useLocale();
+
+<PixelValeProvider
+  locale={locale}
+  messages={{
+    closeDialog: '关上',
+    notifications: '小通知',
+  }}
+/>;
+```
+
+- `locale`：`'en' | 'zh-CN'`
+- `messages`：`Partial<Record<LocaleMessageKey, string>>`，只覆盖需要修改的 key
+- `useLocale()`：返回 `{ locale, t }`，`t(key, params)` 支持 `{name}` / `{count}` 插值
+- 已内置本地化的组件：Tabs、ProgressBar、CoinDisplay、Select、Dialog、Toast、Alert、NumberField、Steps、Avatar、Sparkline、Rating、Combobox、DropdownMenu、InventoryGrid
+- 根节点同时输出 `lang` 与 `data-pv-locale`，方便 CSS、读屏和测试定位
+- 业务文案仍由使用方提供；locale 只负责组件内置的可访问名称、占位符和状态文案
 
 ## 主题
 
@@ -134,7 +189,8 @@ play('click'); // click | hover | open | close | toggle | success | error | coin
 
 | 组件                         | 说明                                         |
 | ---------------------------- | -------------------------------------------- |
-| `PixelValeProvider`          | 主题、声音、Portal 宿主                      |
+| `PixelValeProvider`          | 主题、声音、语言、Portal 宿主                |
+| `useLocale`                  | 读取当前语言与内置文案翻译函数               |
 | `Button` / `IconButton`      | 5 种变体、3 种尺寸、loading、图标            |
 | `Panel`                      | 木质标题栏、装饰铆钉、footer、语义标题层级   |
 | `Tabs`                       | 受控/非受控、方向键/Home/End、禁用项         |
@@ -161,6 +217,10 @@ play('click'); // click | hover | open | close | toggle | success | error | coin
 | `Steps`                      | 步骤进度、完成/当前状态、可选点击跳转        |
 | `Stat`                       | 指标卡、6 种色调、图标/提示                  |
 | `Skeleton`                   | 文本/块骨架屏、动画、reduced-motion 适配     |
+| `Combobox`                   | 可搜索单选、过滤、键盘导航、顶层级列表       |
+| `Rating`                     | 星级评分、radiogroup、方向键、只读/清除      |
+| `Sparkline`                  | 像素折线/柱状迷你图、色调、无障碍摘要        |
+| `Avatar`                     | 像素头像框、首字母回退、图片错误处理、状态点 |
 | `PixelIcon`                  | 24×24 线性像素图标                           |
 | `PixelSprite`                | 12×12 字符网格像素画                         |
 | `usePixelVale`               | 读取当前主题与 Portal 宿主                   |
@@ -286,11 +346,16 @@ const items: InventoryEntry[] = [
 - Drawer 复用 Dialog 的焦点陷阱、背景 inert、滚动锁和 Escape 归还焦点
 - ToggleGroup 使用 roving tabindex，方向键移动焦点，Space/Enter 切换
 - Steps 使用有序列表与 `aria-current="step"`，完成/当前状态可被辅助技术读取
+- Combobox 使用 `role=combobox` + `aria-activedescendant`，支持过滤、方向键与 Escape
+- Rating 使用 radiogroup 语义，方向键/Home/End 改变评分，只读时输出图像摘要
+- Sparkline 以图像角色暴露点数与最后值摘要；Avatar 图片失败时回退到首字母
 - NumberField 支持方向键步进、Shift+方向键跳 5、PageUp/Down 跳 10、Home/End 到边界
 - Accordion 的每个标题都是按钮，方向键在标题间移动，折叠内容同时使用 `inert` 与 `aria-hidden`
 - Tabs 使用 roving tabindex，左右方向键切换，自动跳过禁用项
 - Inventory 是 listbox 语义，方向键在格子间移动，选中项可被 Tab 聚焦
 - `prefers-reduced-motion` 时关闭动画并把数字滚动改为直接跳变
+- 语言切换会同步更新根节点 `lang`，读屏会用对应语言朗读内置文案
+- Sparkline / Rating 的图像摘要、Combobox 的选项提示、Toast 的区域名称都会随 locale 切换
 - 所有图标按钮必须传入 `label`
 
 ## 安全说明
@@ -313,6 +378,8 @@ const items: InventoryEntry[] = [
 
 - 声音需要用户手势后才能启动，这是浏览器策略，不是缺陷
 - 库样式为独立 CSS 文件，需要在应用入口手动 `import '@pixelvale/ui/style.css'`
+- 中文像素字体不随库打包，使用 `zh-CN` 时请按上面的字体章节本地引入
+- 仅组件内置文案会翻译；业务内容（商品名、任务标题等）仍由使用方维护
 - Playground 中的背包、金币、任务状态仅存在内存中，刷新后会重置（刻意不写入存储）
 - 没有包含 SSR 专用的水合处理；Portal 在无 `document` 环境不会渲染
 

@@ -1,19 +1,30 @@
 import { useEffect, useRef, useState } from 'react';
 import {
   Alert,
+  Avatar,
   Badge,
   Button,
+  Combobox,
   Divider,
   Drawer,
   Panel,
   PixelIcon,
   PixelSprite,
+  Rating,
   Skeleton,
+  Sparkline,
   Stat,
   Steps,
   ToggleGroup,
   useToast,
 } from '@pixelvale/ui';
+
+const TASK_STAGE: Record<string, string> = {
+  water: 'plan',
+  pack: 'pack',
+  mine: 'mine',
+  return: 'return',
+};
 
 const EXPEDITION_STEPS = [
   {
@@ -44,6 +55,8 @@ interface WorkshopProps {
 
 export function Workshop({ gold }: WorkshopProps) {
   const [stage, setStage] = useState<string>('pack');
+  const [task, setTask] = useState('pack');
+  const [mood, setMood] = useState(4);
   const [overlays, setOverlays] = useState<string[]>(['watered']);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -107,6 +120,50 @@ export function Workshop({ gold }: WorkshopProps) {
               Current stage: <strong>{currentStage}</strong>
             </p>
 
+            <Combobox
+              label="Find a task"
+              value={task}
+              clearable
+              options={[
+                {
+                  value: 'water',
+                  label: 'Water the north field',
+                  description: 'Plan · parsnips before noon',
+                  keywords: 'water crops field parsnip',
+                },
+                {
+                  value: 'pack',
+                  label: 'Pack for the mines',
+                  description: 'Pack · torch, apples, sword',
+                  keywords: 'torch apples sword supplies',
+                },
+                {
+                  value: 'mine',
+                  label: 'Reach floor 20',
+                  description: 'Mine · bring courage',
+                  keywords: 'mines slimes ladder',
+                },
+                {
+                  value: 'return',
+                  label: 'Return before dusk',
+                  description: 'Return · shipping bin closes',
+                  keywords: 'home dusk shipping',
+                },
+                {
+                  value: 'locked',
+                  label: 'Feed the chickens',
+                  description: 'Locked · not until morning',
+                  disabled: true,
+                },
+              ]}
+              onValueChange={(next) => {
+                setTask(next);
+                const nextStage = TASK_STAGE[next];
+                if (nextStage) setStage(nextStage);
+              }}
+              hint="Type to filter; Arrow keys and Enter work."
+            />
+
             <Divider label="crop overlays" />
 
             <ToggleGroup
@@ -137,6 +194,19 @@ export function Workshop({ gold }: WorkshopProps) {
               Pressed filters stay active. Arrow keys move focus; Space presses.
             </p>
 
+            <div className="rating-demo">
+              <Rating
+                label="Harvest mood"
+                value={mood}
+                onValueChange={setMood}
+                allowClear
+                showValue
+              />
+              <span className="demo-inline-hint">
+                Click a star; click it again to clear.
+              </span>
+            </div>
+
             <div className="demo-row demo-row--center">
               <Button
                 variant="primary"
@@ -160,6 +230,15 @@ export function Workshop({ gold }: WorkshopProps) {
           icon={<PixelIcon name="sun" size={18} />}
         >
           <div className="demo-stack">
+            <div className="farmer-profile">
+              <Avatar name="Marnie Oakes" size="lg" status="online" />
+              <div className="farmer-profile__text">
+                <p className="farmer-profile__name">Marnie Oakes</p>
+                <p className="farmer-profile__role">Rancher · Willow Farm</p>
+              </div>
+              <Badge variant="success">Online</Badge>
+            </div>
+
             <div className="stat-grid">
               <Stat
                 label="Spring day"
@@ -188,6 +267,19 @@ export function Workshop({ gold }: WorkshopProps) {
                 hint="Clouds undecided"
                 icon={<PixelIcon name="info" size={17} />}
                 tone="info"
+              />
+            </div>
+
+            <div className="sparkline-demo">
+              <div className="sparkline-demo__head">
+                <span>Energy trend</span>
+                <Badge variant="success">+20%</Badge>
+              </div>
+              <Sparkline
+                values={[52, 58, 54, 64, 61, 69, 72]}
+                label="Energy over the last week"
+                tone="green"
+                height={46}
               />
             </div>
 

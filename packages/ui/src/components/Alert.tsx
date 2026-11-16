@@ -1,6 +1,7 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 import { cx } from '../lib/cx';
 import { IconButton } from './Button';
+import { useLocale } from './PixelValeProvider';
 import { PixelIcon } from './PixelIcon';
 import { PixelSprite } from './PixelSprite';
 
@@ -28,11 +29,12 @@ export function Alert({
   action,
   dismissible = false,
   onDismiss,
-  dismissLabel = 'Dismiss message',
+  dismissLabel,
   className,
   children,
   ...rest
 }: AlertProps) {
+  const { t } = useLocale();
   const defaultRole = variant === 'error' ? 'alert' : 'status';
   const { role = defaultRole, ...divProps } = rest;
 
@@ -68,7 +70,7 @@ export function Alert({
       {action ? <div className="pv-alert__action">{action}</div> : null}
       {dismissible && onDismiss ? (
         <IconButton
-          label={dismissLabel}
+          label={dismissLabel ?? t('dismissMessage')}
           variant="ghost"
           size="sm"
           className="pv-alert__close"

@@ -1,7 +1,7 @@
 import { useRef, type HTMLAttributes, type KeyboardEvent, type ReactNode } from 'react';
 import { cx } from '../lib/cx';
 import { useControllableState } from '../lib/useControllableState';
-import { useSound } from './PixelValeProvider';
+import { useLocale, useSound } from './PixelValeProvider';
 
 export interface TabItem {
   value: string;
@@ -31,11 +31,12 @@ export function Tabs({
   value,
   defaultValue,
   onValueChange,
-  label = 'Sections',
+  label,
   variant = 'parchment',
   className,
   ...rest
 }: TabsProps) {
+  const { t } = useLocale();
   const firstEnabled = items.find((item) => !item.disabled)?.value ?? '';
   const [current, setCurrent] = useControllableState({
     value,
@@ -106,7 +107,7 @@ export function Tabs({
   return (
     <div
       role="tablist"
-      aria-label={label}
+      aria-label={label ?? t('sections')}
       aria-orientation="horizontal"
       className={cx('pv-tabs', `pv-tabs--${variant}`, className)}
       {...rest}

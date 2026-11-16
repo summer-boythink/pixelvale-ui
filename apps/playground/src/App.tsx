@@ -1,9 +1,16 @@
 import { useState } from 'react';
-import { PixelIcon, PixelSprite, PixelValeProvider, ToastProvider } from '@pixelvale/ui';
+import {
+  PixelIcon,
+  PixelSprite,
+  PixelValeProvider,
+  ToastProvider,
+  type PixelValeLocale,
+} from '@pixelvale/ui';
 import { FarmHud } from './FarmHud';
 import { Gallery } from './Gallery';
 import { Header } from './Header';
 import { Hero } from './Hero';
+import { Teahouse } from './Teahouse';
 import { Workshop } from './Workshop';
 import type { DemoTheme } from './data';
 
@@ -115,6 +122,7 @@ function Footer() {
         <a href="#shelf">Components</a>
         <a href="#workshop">Workshop</a>
         <a href="#top">Back to top ↑</a>
+        <a href="/FUSION-PIXEL-OFL.txt">Fusion Pixel · OFL-1.1</a>
       </nav>
     </footer>
   );
@@ -123,25 +131,35 @@ function Footer() {
 function Shell({
   theme,
   onThemeChange,
+  locale,
+  onLocaleChange,
 }: {
   theme: DemoTheme;
   onThemeChange: (theme: DemoTheme) => void;
+  locale: PixelValeLocale;
+  onLocaleChange: (locale: PixelValeLocale) => void;
 }) {
   const [gold, setGold] = useState(1280);
 
   return (
     <>
       <a className="demo-skip" href="#main">
-        Skip to the farm
+        {locale === 'zh-CN' ? '跳到主内容' : 'Skip to the farm'}
       </a>
       <Scenery />
       <div className="demo-shell">
-        <Header theme={theme} onThemeChange={onThemeChange} />
+        <Header
+          theme={theme}
+          onThemeChange={onThemeChange}
+          locale={locale}
+          onLocaleChange={onLocaleChange}
+        />
         <main id="main" tabIndex={-1}>
           <Hero />
           <FarmHud gold={gold} setGold={setGold} />
           <Gallery gold={gold} setGold={setGold} />
           <Workshop gold={gold} />
+          <Teahouse />
           <CraftNotes />
         </main>
         <Footer />
@@ -152,16 +170,23 @@ function Shell({
 
 export default function App() {
   const [theme, setTheme] = useState<DemoTheme>('day');
+  const [locale, setLocale] = useState<PixelValeLocale>('en');
 
   return (
     <PixelValeProvider
       theme={theme}
+      locale={locale}
       defaultSoundEnabled
       defaultVolume={0.55}
       className="demo-root"
     >
       <ToastProvider>
-        <Shell theme={theme} onThemeChange={setTheme} />
+        <Shell
+          theme={theme}
+          onThemeChange={setTheme}
+          locale={locale}
+          onLocaleChange={setLocale}
+        />
       </ToastProvider>
     </PixelValeProvider>
   );

@@ -11,7 +11,7 @@ import {
 import { cx } from '../lib/cx';
 import { useControllableState } from '../lib/useControllableState';
 import { Button, type ButtonSize, type ButtonVariant } from './Button';
-import { useSound } from './PixelValeProvider';
+import { useLocale, useSound } from './PixelValeProvider';
 import { PixelIcon } from './PixelIcon';
 
 export type DropdownMenuItem =
@@ -92,6 +92,7 @@ export function DropdownMenu({
   });
   const [position, setPosition] = useState<MenuPosition | null>(null);
   const { play } = useSound();
+  const { t } = useLocale();
 
   const getEnabledItems = () =>
     Array.from(
@@ -321,7 +322,7 @@ export function DropdownMenu({
           id={menuId}
           role="menu"
           tabIndex={-1}
-          aria-label={menuLabel ?? `${label} menu`}
+          aria-label={menuLabel ?? t('menuLabel', { label })}
           className="pv-menu"
           data-placement={position?.placement ?? 'bottom'}
           style={

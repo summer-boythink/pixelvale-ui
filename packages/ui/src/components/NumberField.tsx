@@ -9,7 +9,7 @@ import {
 } from 'react';
 import { cx } from '../lib/cx';
 import { useControllableState } from '../lib/useControllableState';
-import { useSound } from './PixelValeProvider';
+import { useLocale, useSound } from './PixelValeProvider';
 import { PixelIcon } from './PixelIcon';
 
 export interface NumberFieldProps extends Omit<
@@ -104,6 +104,7 @@ export function NumberField({
       ? clampValue(parsedDraft)
       : current;
   const { play } = useSound();
+  const { t } = useLocale();
 
   useEffect(() => {
     if (!editing) setDraft(String(current));
@@ -180,9 +181,9 @@ export function NumberField({
     }
   };
 
-  const labelText = typeof label === 'string' ? label : 'value';
-  const decrementText = decrementLabel ?? `Decrease ${labelText}`;
-  const incrementText = incrementLabel ?? `Increase ${labelText}`;
+  const labelText = typeof label === 'string' ? label : t('value');
+  const decrementText = decrementLabel ?? t('decrease', { label: labelText });
+  const incrementText = incrementLabel ?? t('increase', { label: labelText });
   const atMin = Number.isFinite(rangeMin) && effectiveCurrent <= rangeMin;
   const atMax = Number.isFinite(rangeMax) && effectiveCurrent >= rangeMax;
 

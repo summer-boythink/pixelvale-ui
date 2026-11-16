@@ -1,14 +1,50 @@
-import { IconButton, PixelIcon, PixelSprite, useSound } from '@pixelvale/ui';
+import {
+  IconButton,
+  PixelIcon,
+  PixelSprite,
+  useSound,
+  type PixelValeLocale,
+} from '@pixelvale/ui';
 import { THEME_META, type DemoTheme } from './data';
 
 interface HeaderProps {
   theme: DemoTheme;
   onThemeChange: (theme: DemoTheme) => void;
+  locale: PixelValeLocale;
+  onLocaleChange: (locale: PixelValeLocale) => void;
 }
 
-export function Header({ theme, onThemeChange }: HeaderProps) {
+const THEME_LABELS: Record<PixelValeLocale, Record<DemoTheme, string>> = {
+  en: { day: 'Day', autumn: 'Autumn', night: 'Night' },
+  'zh-CN': { day: '白天', autumn: '秋日', night: '夜晚' },
+};
+
+const NAV_LABELS: Record<
+  PixelValeLocale,
+  { homestead: string; shelf: string; workshop: string; teahouse: string; notes: string }
+> = {
+  en: {
+    homestead: 'Homestead',
+    shelf: 'Shelf',
+    workshop: 'Workshop',
+    teahouse: 'Teahouse',
+    notes: 'Craft notes',
+  },
+  'zh-CN': {
+    homestead: '农舍',
+    shelf: '组件架',
+    workshop: '工坊',
+    teahouse: '茶馆',
+    notes: '手记',
+  },
+};
+
+export function Header({ theme, onThemeChange, locale, onLocaleChange }: HeaderProps) {
   const meta = THEME_META[theme];
   const { enabled, setEnabled, play } = useSound();
+  const isZh = locale === 'zh-CN';
+  const themeLabels = THEME_LABELS[locale];
+  const nav = NAV_LABELS[locale];
 
   const cycleTheme = () => {
     play('click');
@@ -36,27 +72,55 @@ export function Header({ theme, onThemeChange }: HeaderProps) {
         </span>
       </a>
 
-      <nav className="demo-nav" aria-label="Primary">
-        <a href="#homestead">Homestead</a>
-        <a href="#shelf">Shelf</a>
-        <a href="#workshop">Workshop</a>
-        <a href="#craft-notes">Craft notes</a>
+      <nav className="demo-nav" aria-label={isZh ? '主导航' : 'Primary'}>
+        <a href="#homestead">{nav.homestead}</a>
+        <a href="#shelf">{nav.shelf}</a>
+        <a href="#workshop">{nav.workshop}</a>
+        <a href="#teahouse">{nav.teahouse}</a>
+        <a href="#craft-notes">{nav.notes}</a>
       </nav>
 
       <div className="demo-header__actions">
+        <button
+          type="button"
+          className="lang-toggle"
+          aria-pressed={isZh}
+          title={isZh ? '切换至英文' : 'Switch to Chinese'}
+          onClick={() => {
+            play('click');
+            onLocaleChange(isZh ? 'en' : 'zh-CN');
+          }}
+        >
+          <span lang={isZh ? 'en' : 'zh-CN'} aria-hidden="true">
+            {isZh ? 'EN' : '中文'}
+          </span>
+          <span className="pv-sr-only">{isZh ? '切换至英文' : 'Switch to Chinese'}</span>
+        </button>
         <span className="demo-theme-chip">
           <PixelIcon name={meta.icon} size={14} />
-          <span>{meta.label}</span>
+          <span>{themeLabels[theme]}</span>
         </span>
         <IconButton
-          label={`Switch to ${THEME_META[meta.next].label.toLowerCase()} theme`}
+          label={
+            isZh
+              ? `切换到${themeLabels[meta.next]}主题`
+              : `Switch to ${THEME_META[meta.next].label.toLowerCase()} theme`
+          }
           variant="wood"
           onClick={cycleTheme}
         >
           <PixelIcon name={meta.icon} size={18} />
         </IconButton>
         <IconButton
-          label={enabled ? 'Mute interface sounds' : 'Enable interface sounds'}
+          label={
+            isZh
+              ? enabled
+                ? '关闭界面音效'
+                : '开启界面音效'
+              : enabled
+                ? 'Mute interface sounds'
+                : 'Enable interface sounds'
+          }
           variant="wood"
           onClick={toggleSound}
           aria-pressed={enabled}

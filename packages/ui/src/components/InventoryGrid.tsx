@@ -7,7 +7,7 @@ import {
 import { cx } from '../lib/cx';
 import { useControllableState } from '../lib/useControllableState';
 import { Badge } from './Panel';
-import { useSound } from './PixelValeProvider';
+import { useLocale, useSound } from './PixelValeProvider';
 import { PixelSprite, type PixelSpriteName } from './PixelSprite';
 import { Tooltip } from './Tooltip';
 
@@ -29,12 +29,12 @@ export interface InventoryEntry {
   quantity: number;
 }
 
-const RARITY_LABEL: Record<ItemRarity, string> = {
-  common: 'Common',
-  uncommon: 'Uncommon',
-  rare: 'Rare',
-  legendary: 'Legendary',
-};
+const RARITY_KEY = {
+  common: 'rarityCommon',
+  uncommon: 'rarityUncommon',
+  rare: 'rarityRare',
+  legendary: 'rarityLegendary',
+} as const;
 
 export interface ItemDetailsProps extends HTMLAttributes<HTMLDivElement> {
   item: ItemDefinition;
@@ -50,6 +50,7 @@ export function ItemDetails({
   ...rest
 }: ItemDetailsProps) {
   const rarity = item.rarity ?? 'common';
+  const { t } = useLocale();
 
   return (
     <div
@@ -68,10 +69,10 @@ export function ItemDetails({
             {item.category ? <Badge variant="default">{item.category}</Badge> : null}
             {rarity !== 'common' ? (
               <Badge variant={rarity === 'legendary' ? 'gold' : 'info'}>
-                {RARITY_LABEL[rarity]}
+                {t(RARITY_KEY[rarity])}
               </Badge>
             ) : null}
-            {item.edible ? <Badge variant="success">Edible</Badge> : null}
+            {item.edible ? <Badge variant="success">{t('edible')}</Badge> : null}
           </div>
         </div>
       </div>
@@ -83,7 +84,7 @@ export function ItemDetails({
           <span className="pv-item-details__price">
             <PixelSprite name="coin" size={16} />
             <span>{item.sellPrice}g</span>
-            <span className="pv-item-details__price-label">each</span>
+            <span className="pv-item-details__price-label">{t('each')}</span>
           </span>
         ) : (
           <span />
@@ -119,7 +120,7 @@ export function InventoryGrid({
   defaultSelectedId,
   onSelectedChange,
   showTooltips = true,
-  label = 'Inventory',
+  label,
   className,
   style,
   ...rest
@@ -137,6 +138,7 @@ export function InventoryGrid({
   });
 
   const { play } = useSound();
+  const { t } = useLocale();
   const slotRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
   const effectiveSelected = items.some((entry) => entry.item.id === selected)
@@ -192,7 +194,7 @@ export function InventoryGrid({
   return (
     <div
       role="listbox"
-      aria-label={label}
+      aria-label={label ?? t('inventory')}
       className={cx('pv-inventory', className)}
       style={
         {
@@ -214,7 +216,10 @@ export function InventoryGrid({
             type="button"
             role="option"
             aria-selected={isSelected}
-            aria-label={`${entry.item.name}, quantity ${entry.quantity}`}
+            aria-label={t('itemQuantity', {
+              name: entry.item.name,
+              count: entry.quantity,
+            })}
             tabIndex={isSelected ? 0 : -1}
             className="pv-slot"
             data-rarity={rarity}

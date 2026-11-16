@@ -10,6 +10,15 @@ import {
   type ReactNode,
 } from 'react';
 import { cx } from '../lib/cx';
+import {
+  BASE_MESSAGES,
+  getLocaleMessages,
+  interpolateMessage,
+  type LocaleMessageKey,
+  type LocaleMessagesOverride,
+  type PixelValeLocale,
+  type TranslateFunction,
+} from '../lib/locale';
 
 export type PixelValeTheme = 'day' | 'night' | 'autumn';
 
@@ -27,6 +36,13 @@ export interface SoundContextValue {
 interface PixelValeContextValue {
   theme: PixelValeTheme;
   portalHost: HTMLDivElement | null;
+  locale: PixelValeLocale;
+  t: TranslateFunction;
+}
+
+export interface LocaleContextValue {
+  locale: PixelValeLocale;
+  t: TranslateFunction;
 }
 
 const noop = () => undefined;
@@ -39,9 +55,14 @@ const FALLBACK_SOUND: SoundContextValue = {
   play: noop,
 };
 
+const fallbackT: TranslateFunction = (key: LocaleMessageKey, params) =>
+  interpolateMessage(BASE_MESSAGES.en[key], params);
+
 const FALLBACK_CONTEXT: PixelValeContextValue = {
   theme: 'day',
   portalHost: null,
+  locale: 'en',
+  t: fallbackT,
 };
 
 const SoundContext = createContext<SoundContextValue>(FALLBACK_SOUND);
@@ -140,6 +161,10 @@ export interface PixelValeProviderProps {
   defaultSoundEnabled?: boolean;
   /** Initial sound level between 0 and 1. Defaults to 0.55. */
   defaultVolume?: number;
+  /** Built-in interface language. Defaults to English. */
+  locale?: PixelValeLocale;
+  /** Optional overrides for individual built-in strings. */
+  messages?: LocaleMessagesOverride;
   className?: string;
   style?: CSSProperties;
 }
@@ -153,6 +178,8 @@ export function PixelValeProvider({
   theme = 'day',
   defaultSoundEnabled = true,
   defaultVolume = 0.55,
+  locale = 'en',
+  messages,
   className,
   style,
 }: PixelValeProviderProps) {
@@ -208,20 +235,36 @@ export function PixelValeProvider({
     };
   }, []);
 
+  const resolvedMessages = useMemo(
+    () => getLocaleMessages(locale, messages),
+    [locale, messages],
+  );
+  const t = useCallback<TranslateFunction>(
+    (key, params) =>
+      interpolateMessage(resolvedMessages[key] ?? BASE_MESSAGES.en[key] ?? key, params),
+    [resolvedMessages],
+  );
+
   const soundValue = useMemo<SoundContextValue>(
     () => ({ enabled, volume, setEnabled, setVolume, play }),
     [enabled, volume, play, setVolume],
   );
 
   const pixelValeValue = useMemo<PixelValeContextValue>(
-    () => ({ theme, portalHost }),
-    [theme, portalHost],
+    () => ({ theme, portalHost, locale, t }),
+    [theme, portalHost, locale, t],
   );
 
   return (
     <PixelValeContext.Provider value={pixelValeValue}>
       <SoundContext.Provider value={soundValue}>
-        <div className={cx('pv-root', className)} data-pv-theme={theme} style={style}>
+        <div
+          className={cx('pv-root', className)}
+          data-pv-theme={theme}
+          data-pv-locale={locale}
+          lang={locale}
+          style={style}
+        >
           {children}
           <div ref={setPortalHost} className="pv-portal" />
         </div>
@@ -236,6 +279,11 @@ export function useSound(): SoundContextValue {
 
 export function usePixelVale(): PixelValeContextValue {
   return useContext(PixelValeContext);
+}
+
+export function useLocale(): LocaleContextValue {
+  const { locale, t } = useContext(PixelValeContext);
+  return { locale, t };
 }
 
 /**

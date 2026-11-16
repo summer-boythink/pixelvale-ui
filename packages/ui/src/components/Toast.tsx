@@ -10,7 +10,7 @@ import {
 } from 'react';
 import { createPortal } from 'react-dom';
 import { cx } from '../lib/cx';
-import { usePortalHost, useSound } from './PixelValeProvider';
+import { useLocale, usePortalHost, useSound } from './PixelValeProvider';
 import { IconButton } from './Button';
 import { PixelIcon } from './PixelIcon';
 import { PixelSprite } from './PixelSprite';
@@ -80,6 +80,7 @@ export function ToastProvider({
   const leavingRef = useRef(new Set<number>());
   const portalHost = usePortalHost();
   const { play } = useSound();
+  const { t } = useLocale();
   const maxRef = useRef(max);
   const defaultDurationRef = useRef(defaultDuration);
 
@@ -179,7 +180,11 @@ export function ToastProvider({
       {children}
       {portalHost
         ? createPortal(
-            <div className="pv-toast-viewport" role="region" aria-label="Notifications">
+            <div
+              className="pv-toast-viewport"
+              role="region"
+              aria-label={t('notifications')}
+            >
               {toasts.map((item) => (
                 <div
                   key={item.id}
@@ -200,7 +205,7 @@ export function ToastProvider({
                     ) : null}
                   </div>
                   <IconButton
-                    label="Dismiss notification"
+                    label={t('dismissNotification')}
                     variant="ghost"
                     size="sm"
                     className="pv-toast__close"

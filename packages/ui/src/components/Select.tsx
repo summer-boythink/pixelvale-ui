@@ -11,7 +11,7 @@ import {
 } from 'react';
 import { cx } from '../lib/cx';
 import { useControllableState } from '../lib/useControllableState';
-import { useSound } from './PixelValeProvider';
+import { useLocale, useSound } from './PixelValeProvider';
 import { PixelIcon } from './PixelIcon';
 
 export interface SelectOption {
@@ -43,7 +43,7 @@ export function Select({
   value,
   defaultValue,
   onValueChange,
-  placeholder = 'Choose…',
+  placeholder,
   label,
   hint,
   disabled = false,
@@ -79,6 +79,7 @@ export function Select({
   });
 
   const { play } = useSound();
+  const { t } = useLocale();
   const rootRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLUListElement>(null);
@@ -315,7 +316,7 @@ export function Select({
             open && activeIndex >= 0 ? optionId(activeIndex) : undefined
           }
           aria-labelledby={label ? labelId : undefined}
-          aria-label={!label ? (ariaLabel ?? 'Choose an option') : undefined}
+          aria-label={!label ? (ariaLabel ?? t('chooseOption')) : undefined}
           aria-describedby={hintId}
           className="pv-select__trigger"
           disabled={disabled}
@@ -331,7 +332,9 @@ export function Select({
               !selectedOption && 'pv-select__value--placeholder',
             )}
           >
-            {selectedOption ? selectedOption.label : placeholder}
+            {selectedOption
+              ? selectedOption.label
+              : (placeholder ?? t('selectPlaceholder'))}
           </span>
           <span className="pv-select__chevron" aria-hidden="true">
             <PixelIcon name="chevron-down" size={16} />
@@ -343,7 +346,7 @@ export function Select({
             id={listId}
             role="listbox"
             aria-labelledby={label ? labelId : undefined}
-            aria-label={!label ? (ariaLabel ?? 'Options') : undefined}
+            aria-label={!label ? (ariaLabel ?? t('options')) : undefined}
             className="pv-select__menu"
             data-placement={menuPlacement?.placement ?? 'bottom'}
             style={
@@ -362,7 +365,7 @@ export function Select({
             }}
           >
             {options.length === 0 ? (
-              <li className="pv-select__empty">No options available</li>
+              <li className="pv-select__empty">{t('noOptions')}</li>
             ) : (
               options.map((option, index) => {
                 const selected = option.value === current;

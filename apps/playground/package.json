@@ -15,6 +15,7 @@
     "react-dom": "^19.3.1"
   },
   "devDependencies": {
+    "@fontsource/fusion-pixel-12px-proportional-sc": "^5.3.0",
     "@fontsource/pixelify-sans": "^5.3.0",
     "@types/node": "^26.6.6",
     "@types/react": "^19.3.0",

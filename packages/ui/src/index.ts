@@ -1,12 +1,21 @@
 export {
   PixelValeProvider,
+  useLocale,
   usePixelVale,
   useSound,
+  type LocaleContextValue,
   type PixelValeProviderProps,
   type PixelValeTheme,
   type SoundContextValue,
   type SoundName,
 } from './components/PixelValeProvider';
+export type {
+  LocaleMessageKey,
+  LocaleMessages,
+  LocaleMessagesOverride,
+  PixelValeLocale,
+  TranslateFunction,
+} from './lib/locale';
 export {
   Button,
   IconButton,
@@ -103,3 +112,16 @@ export {
 export { Steps, type StepItem, type StepsProps } from './components/Steps';
 export { Stat, type StatProps, type StatTone } from './components/Stat';
 export { Skeleton, type SkeletonProps } from './components/Skeleton';
+export {
+  Avatar,
+  type AvatarProps,
+  type AvatarSize,
+  type AvatarStatus,
+} from './components/Avatar';
+export {
+  Sparkline,
+  type SparklineProps,
+  type SparklineTone,
+} from './components/Sparkline';
+export { Rating, type RatingProps, type RatingSize } from './components/Rating';
+export { Combobox, type ComboboxOption, type ComboboxProps } from './components/Combobox';
