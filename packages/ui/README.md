@@ -25,6 +25,7 @@ import '@pixelvale/ui/style.css';
 - Themes: `day`, `night`, `autumn` (or override CSS variables)
 - Built-in `en` / `zh-CN` interface strings via `<PixelValeProvider locale="zh-CN">`
 - Breadcrumb, Pagination, Timeline, and TagInput with keyboard and screen-reader support
+- Popover, Calendar, DataTable, and TreeView for overlays, dates, tables, and nested data
 - Synthesized WebAudio cues via `useSound()`
 
 ## Locale

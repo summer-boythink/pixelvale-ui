@@ -52,7 +52,7 @@ export function Hero() {
         </div>
         <ul className="demo-hero__meta" aria-label="Library highlights">
           <li>
-            <PixelIcon name="check" size={14} /> 30+ components
+            <PixelIcon name="check" size={14} /> 40+ components
           </li>
           <li>
             <PixelIcon name="check" size={14} /> Keyboard friendly

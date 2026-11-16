@@ -54,6 +54,12 @@ export interface LocaleMessages {
   tagsSelected: string;
   removeTag: string;
   tagLimit: string;
+  calendar: string;
+  today: string;
+  previousMonth: string;
+  nextMonth: string;
+  table: string;
+  tree: string;
 }
 
 export type LocaleMessageKey = keyof LocaleMessages;
@@ -118,6 +124,12 @@ const EN: LocaleMessages = {
   tagsSelected: 'Selected tags',
   removeTag: 'Remove {tag}',
   tagLimit: 'Up to {count} tags',
+  calendar: 'Calendar',
+  today: 'Today',
+  previousMonth: 'Previous month',
+  nextMonth: 'Next month',
+  table: 'Data table',
+  tree: 'Tree',
 };
 
 const ZH_CN: LocaleMessages = {
@@ -174,6 +186,12 @@ const ZH_CN: LocaleMessages = {
   tagsSelected: '已选标签',
   removeTag: '移除{tag}',
   tagLimit: '最多 {count} 个标签',
+  calendar: '日历',
+  today: '今天',
+  previousMonth: '上个月',
+  nextMonth: '下个月',
+  table: '数据表',
+  tree: '树形列表',
 };
 
 const BASE_MESSAGES: Record<PixelValeLocale, LocaleMessages> = {

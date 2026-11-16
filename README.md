@@ -6,6 +6,7 @@
 - 动作菜单、折叠面板、原生单选、数量步进、侧边抽屉、步骤条、统计块、骨架屏
 - 可搜索 Combobox、星级评分、像素 Sparkline、头像与状态点
 - 面包屑、分页、时间线、标签输入，覆盖路径、长列表与自由标记
+- 日历、可排序数据表、树形列表、锚定 Popover，覆盖日期、数据与浮层
 - 内置 `en` / `zh-CN` 界面语言：读屏文案、数字格式、语言属性同步切换
 - 中文示例站使用 Fusion Pixel 像素字体，汉字与英文界面都保持同一套视觉语言
 - 原创 12×12 像素图标与作物精灵（不含任何游戏素材）
@@ -146,7 +147,7 @@ const { locale, t } = useLocale();
 - `locale`：`'en' | 'zh-CN'`
 - `messages`：`Partial<Record<LocaleMessageKey, string>>`，只覆盖需要修改的 key
 - `useLocale()`：返回 `{ locale, t }`，`t(key, params)` 支持 `{name}` / `{count}` 插值
-- 已内置本地化的组件：Tabs、ProgressBar、CoinDisplay、Select、Dialog、Toast、Alert、NumberField、Steps、Avatar、Sparkline、Rating、Combobox、DropdownMenu、InventoryGrid、Breadcrumb、Pagination、Timeline、TagInput
+- 已内置本地化的组件：Tabs、ProgressBar、CoinDisplay、Select、Dialog、Toast、Alert、NumberField、Steps、Avatar、Sparkline、Rating、Combobox、DropdownMenu、InventoryGrid、Breadcrumb、Pagination、Timeline、TagInput、Calendar、DataTable、TreeView
 - 根节点同时输出 `lang` 与 `data-pv-locale`，方便 CSS、读屏和测试定位
 - 业务文案仍由使用方提供；locale 只负责组件内置的可访问名称、占位符和状态文案
 
@@ -226,6 +227,10 @@ play('click'); // click | hover | open | close | toggle | success | error | coin
 | `Pagination`                 | 页码折叠、受控/非受控、边缘禁用、sm 尺寸     |
 | `Timeline`                   | 有序事件轨迹、time 时间、色调、当前步骤      |
 | `TagInput`                   | 标签编辑、中英文逗号、IME、上限、表单隐藏域  |
+| `Popover`                    | 锚定非模态浮层、顶层级、外部/Escape 关闭     |
+| `Calendar`                   | 月历网格、方向键/Page/Home/End、min/max      |
+| `DataTable`                  | 可排序表格、滚动区域、空状态、粘性表头       |
+| `TreeView`                   | 嵌套树、roving tabindex、展开/折叠、禁用节点 |
 | `PixelIcon`                  | 24×24 线性像素图标                           |
 | `PixelSprite`                | 12×12 字符网格像素画                         |
 | `usePixelVale`               | 读取当前主题与 Portal 宿主                   |
@@ -378,6 +383,39 @@ const items: InventoryEntry[] = [
 
 `TagInput` 支持 Enter、英文/中文逗号、IME 组合输入、Backspace 删除末项和原生表单隐藏域；`Pagination` 会自动生成省略号并禁用首尾箭头。
 
+### 日历、表格、树与浮层
+
+```tsx
+<Calendar
+  value={date}
+  onValueChange={setDate}
+  min="2026-03-01"
+  max="2026-03-31"
+  today="2026-03-15"
+/>
+
+<DataTable
+  label="Harvest ledger"
+  columns={columns}
+  rows={rows}
+  getRowKey={(row) => row.id}
+  defaultSort={{ columnId: 'value', direction: 'desc' }}
+/>
+
+<TreeView
+  nodes={archive}
+  defaultExpanded={['spring']}
+  defaultSelected="parsnip"
+  onSelectedChange={setLeaf}
+/>
+
+<Popover label="Field notes" trigger={<Button>Notes</Button>}>
+  <p>The Winter ledger opens after the first snow.</p>
+</Popover>;
+```
+
+`Calendar` 的日期与月份参数使用 `YYYY-MM-DD` / `YYYY-MM`；`DataTable` 的列通过 `sortValue` 启用排序；`TreeView` 的展开与选中都支持受控或非受控模式。
+
 ## 无障碍与交互细节
 
 - 所有交互控件使用原生 `button` / `input`，或完整的 ARIA 语义
@@ -395,6 +433,10 @@ const items: InventoryEntry[] = [
   +- Pagination 使用 nav + list，当前页输出 `aria-current="page"`，首尾箭头自动禁用
   +- Timeline 使用有序列表；带 `dateTime` 的时间戳渲染为 `<time>`，当前项为 `aria-current="step"`
   +- TagInput 支持 Enter、英文逗号、中文逗号与 IME 组合输入，Backspace 删除末项，删除后焦点回到输入框
+- Calendar 使用 grid 语义、单一 tab stop 和方向键/Page/Home/End 日期导航，min/max 会禁用越界日期
+- DataTable 的滚动区域可聚焦，排序列输出 `aria-sort`，空数据使用本地化提示
+- TreeView 使用 tree/treeitem/group 语义、roving tabindex；Right/Left 展开或折叠，Enter/Space 选择
+- Popover 使用非模态 dialog 语义，支持顶层级、外部点击/Escape 关闭，Escape 后焦点回到触发器
 - NumberField 支持方向键步进、Shift+方向键跳 5、PageUp/Down 跳 10、Home/End 到边界
 - Accordion 的每个标题都是按钮，方向键在标题间移动，折叠内容同时使用 `inert` 与 `aria-hidden`
 - Tabs 使用 roving tabindex，左右方向键切换，自动跳过禁用项
@@ -427,6 +469,7 @@ const items: InventoryEntry[] = [
 - 中文像素字体不随库打包，使用 `zh-CN` 时请按上面的字体章节本地引入
 - 仅组件内置文案会翻译；业务内容（商品名、任务标题等）仍由使用方维护
 - TagInput 的标签是用户内容，不作翻译；标签上限、移除按钮和占位符会随 locale 切换
+- Calendar 的月份名、星期名和完整日期标签通过 `Intl.DateTimeFormat(locale)` 生成；日期参数使用 ISO 字符串
 - Playground 中的背包、金币、任务状态仅存在内存中，刷新后会重置（刻意不写入存储）
 - 没有包含 SSR 专用的水合处理；Portal 在无 `document` 环境不会渲染
 

@@ -26,6 +26,7 @@ const NAV_LABELS: Record<
     shelf: string;
     workshop: string;
     ledger: string;
+    almanac: string;
     teahouse: string;
     notes: string;
   }
@@ -35,14 +36,16 @@ const NAV_LABELS: Record<
     shelf: 'Shelf',
     workshop: 'Workshop',
     ledger: 'Ledger',
+    almanac: 'Almanac',
     teahouse: 'Teahouse',
-    notes: 'Craft notes',
+    notes: 'Notes',
   },
   'zh-CN': {
     homestead: '农舍',
     shelf: '组件架',
     workshop: '工坊',
     ledger: '账本',
+    almanac: '年历',
     teahouse: '茶馆',
     notes: '手记',
   },
@@ -86,6 +89,7 @@ export function Header({ theme, onThemeChange, locale, onLocaleChange }: HeaderP
         <a href="#shelf">{nav.shelf}</a>
         <a href="#workshop">{nav.workshop}</a>
         <a href="#ledger">{nav.ledger}</a>
+        <a href="#almanac">{nav.almanac}</a>
         <a href="#teahouse">{nav.teahouse}</a>
         <a href="#craft-notes">{nav.notes}</a>
       </nav>

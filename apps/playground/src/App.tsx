@@ -10,6 +10,7 @@ import { FarmHud } from './FarmHud';
 import { Gallery } from './Gallery';
 import { Header } from './Header';
 import { Hero } from './Hero';
+import { Almanac } from './Almanac';
 import { Teahouse } from './Teahouse';
 import { TownLedger } from './TownLedger';
 import { Workshop } from './Workshop';
@@ -161,6 +162,7 @@ function Shell({
           <Gallery gold={gold} setGold={setGold} />
           <Workshop gold={gold} />
           <TownLedger />
+          <Almanac />
           <Teahouse />
           <CraftNotes />
         </main>

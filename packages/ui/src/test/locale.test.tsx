@@ -11,12 +11,15 @@ import {
 import { Alert } from '../components/Alert';
 import { Avatar } from '../components/Avatar';
 import { Breadcrumb } from '../components/Breadcrumb';
+import { Calendar } from '../components/Calendar';
 import { CoinDisplay, ProgressBar } from '../components/ProgressBar';
 import { Combobox } from '../components/Combobox';
+import { DataTable } from '../components/DataTable';
 import { Dialog } from '../components/Dialog';
 import { InventoryGrid } from '../components/InventoryGrid';
 import { NumberField } from '../components/NumberField';
 import { Pagination } from '../components/Pagination';
+import { Popover } from '../components/Popover';
 import { Rating } from '../components/Rating';
 import { Select } from '../components/Select';
 import { Sparkline } from '../components/Sparkline';
@@ -24,6 +27,7 @@ import { Steps } from '../components/Steps';
 import { Tabs } from '../components/Tabs';
 import { TagInput } from '../components/TagInput';
 import { Timeline } from '../components/Timeline';
+import { TreeView } from '../components/TreeView';
 import { ITEM_FIXTURES } from './fixtures';
 
 function zh(node: ReactNode, messages?: LocaleMessagesOverride) {
@@ -148,6 +152,35 @@ describe('Chinese locale', () => {
     expect(screen.getByRole('list', { name: '时间线' })).toBeTruthy();
     expect(screen.getByRole('button', { name: '移除春天' })).toBeTruthy();
     expect(screen.getByText('最多 2 个标签')).toBeTruthy();
+  });
+
+  it('localizes calendar, table, tree, and popover landmarks', () => {
+    render(
+      zh(
+        <>
+          <Calendar today="2026-03-15" defaultMonth="2026-03" />
+          <DataTable
+            columns={[{ id: 'tea', header: '茶', cell: () => '龙井' }]}
+            rows={[{ id: 'tea' }]}
+            getRowKey={(row) => row.id}
+          />
+          <TreeView nodes={[{ id: 'spring', label: '春天' }]} />
+          <Popover label="详情" defaultOpen trigger={<button type="button">打开</button>}>
+            <p>新茶到了。</p>
+          </Popover>
+        </>,
+      ),
+    );
+
+    expect(screen.getByRole('group', { name: '日历' })).toBeTruthy();
+    expect(screen.getByText('2026年3月')).toBeTruthy();
+    expect(screen.getByRole('button', { name: '上个月' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: '下个月' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: '今天' })).toBeTruthy();
+    expect(screen.getByRole('region', { name: '数据表' })).toBeTruthy();
+    expect(screen.getByRole('tree', { name: '树形列表' })).toBeTruthy();
+    expect(screen.getByRole('treeitem', { name: '春天' })).toBeTruthy();
+    expect(screen.getByRole('dialog', { name: '详情' })).toBeTruthy();
   });
 
   it('allows per-key message overrides', () => {

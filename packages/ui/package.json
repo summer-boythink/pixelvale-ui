@@ -58,6 +58,10 @@
     "accessibility",
     "i18n",
     "locale",
-    "chinese"
+    "chinese",
+    "calendar",
+    "data-table",
+    "tree-view",
+    "popover"
   ]
 }

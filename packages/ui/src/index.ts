@@ -144,3 +144,23 @@ export {
   type TimelineTone,
 } from './components/Timeline';
 export { TagInput, type TagInputProps } from './components/TagInput';
+export {
+  Popover,
+  type PopoverAlign,
+  type PopoverPlacement,
+  type PopoverProps,
+} from './components/Popover';
+export {
+  Calendar,
+  type CalendarProps,
+  type CalendarWeekStart,
+} from './components/Calendar';
+export {
+  DataTable,
+  type DataTableCellAlign,
+  type DataTableColumn,
+  type DataTableProps,
+  type DataTableSort,
+  type DataTableSortDirection,
+} from './components/DataTable';
+export { TreeView, type TreeNode, type TreeViewProps } from './components/TreeView';
