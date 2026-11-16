@@ -125,3 +125,22 @@ export {
 } from './components/Sparkline';
 export { Rating, type RatingProps, type RatingSize } from './components/Rating';
 export { Combobox, type ComboboxOption, type ComboboxProps } from './components/Combobox';
+export {
+  Breadcrumb,
+  type BreadcrumbItem,
+  type BreadcrumbProps,
+} from './components/Breadcrumb';
+export {
+  Pagination,
+  buildPageTokens,
+  type PageToken,
+  type PaginationProps,
+  type PaginationSize,
+} from './components/Pagination';
+export {
+  Timeline,
+  type TimelineItem,
+  type TimelineProps,
+  type TimelineTone,
+} from './components/Timeline';
+export { TagInput, type TagInputProps } from './components/TagInput';

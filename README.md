@@ -5,6 +5,7 @@
 - 木框、羊皮纸、像素投影、金色描边
 - 动作菜单、折叠面板、原生单选、数量步进、侧边抽屉、步骤条、统计块、骨架屏
 - 可搜索 Combobox、星级评分、像素 Sparkline、头像与状态点
+- 面包屑、分页、时间线、标签输入，覆盖路径、长列表与自由标记
 - 内置 `en` / `zh-CN` 界面语言：读屏文案、数字格式、语言属性同步切换
 - 中文示例站使用 Fusion Pixel 像素字体，汉字与英文界面都保持同一套视觉语言
 - 原创 12×12 像素图标与作物精灵（不含任何游戏素材）
@@ -145,7 +146,7 @@ const { locale, t } = useLocale();
 - `locale`：`'en' | 'zh-CN'`
 - `messages`：`Partial<Record<LocaleMessageKey, string>>`，只覆盖需要修改的 key
 - `useLocale()`：返回 `{ locale, t }`，`t(key, params)` 支持 `{name}` / `{count}` 插值
-- 已内置本地化的组件：Tabs、ProgressBar、CoinDisplay、Select、Dialog、Toast、Alert、NumberField、Steps、Avatar、Sparkline、Rating、Combobox、DropdownMenu、InventoryGrid
+- 已内置本地化的组件：Tabs、ProgressBar、CoinDisplay、Select、Dialog、Toast、Alert、NumberField、Steps、Avatar、Sparkline、Rating、Combobox、DropdownMenu、InventoryGrid、Breadcrumb、Pagination、Timeline、TagInput
 - 根节点同时输出 `lang` 与 `data-pv-locale`，方便 CSS、读屏和测试定位
 - 业务文案仍由使用方提供；locale 只负责组件内置的可访问名称、占位符和状态文案
 
@@ -221,6 +222,10 @@ play('click'); // click | hover | open | close | toggle | success | error | coin
 | `Rating`                     | 星级评分、radiogroup、方向键、只读/清除      |
 | `Sparkline`                  | 像素折线/柱状迷你图、色调、无障碍摘要        |
 | `Avatar`                     | 像素头像框、首字母回退、图片错误处理、状态点 |
+| `Breadcrumb`                 | 语义导航、链接/按钮项、分隔符、当前页        |
+| `Pagination`                 | 页码折叠、受控/非受控、边缘禁用、sm 尺寸     |
+| `Timeline`                   | 有序事件轨迹、time 时间、色调、当前步骤      |
+| `TagInput`                   | 标签编辑、中英文逗号、IME、上限、表单隐藏域  |
 | `PixelIcon`                  | 24×24 线性像素图标                           |
 | `PixelSprite`                | 12×12 字符网格像素画                         |
 | `usePixelVale`               | 读取当前主题与 Portal 宿主                   |
@@ -336,6 +341,43 @@ const items: InventoryEntry[] = [
 />
 ```
 
+### 路径、分页与标签
+
+```tsx
+<Breadcrumb
+  items={[
+    { label: 'Valley', href: '#valley' },
+    { label: 'Willow Farm', href: '#homestead' },
+    { label: 'Notice board' },
+  ]}
+/>
+
+<Pagination pageCount={8} defaultPage={1} onPageChange={(page) => console.log(page)} />
+
+<Timeline
+  items={[
+    {
+      id: 'rain',
+      title: 'Rain all afternoon',
+      description: 'The cistern is full.',
+      timestamp: 'Spring 13',
+      dateTime: '2026-03-13',
+      tone: 'info',
+      active: true,
+    },
+  ]}
+/>
+
+<TagInput
+  label="Journal tags"
+  defaultValue={['spring', 'seeds']}
+  maxTags={6}
+  maxLength={18}
+/>;
+```
+
+`TagInput` 支持 Enter、英文/中文逗号、IME 组合输入、Backspace 删除末项和原生表单隐藏域；`Pagination` 会自动生成省略号并禁用首尾箭头。
+
 ## 无障碍与交互细节
 
 - 所有交互控件使用原生 `button` / `input`，或完整的 ARIA 语义
@@ -349,6 +391,10 @@ const items: InventoryEntry[] = [
 - Combobox 使用 `role=combobox` + `aria-activedescendant`，支持过滤、方向键与 Escape
 - Rating 使用 radiogroup 语义，方向键/Home/End 改变评分，只读时输出图像摘要
 - Sparkline 以图像角色暴露点数与最后值摘要；Avatar 图片失败时回退到首字母
+  +- Breadcrumb 使用 nav + ol，分隔符对读屏隐藏，当前项输出 `aria-current="page"`
+  +- Pagination 使用 nav + list，当前页输出 `aria-current="page"`，首尾箭头自动禁用
+  +- Timeline 使用有序列表；带 `dateTime` 的时间戳渲染为 `<time>`，当前项为 `aria-current="step"`
+  +- TagInput 支持 Enter、英文逗号、中文逗号与 IME 组合输入，Backspace 删除末项，删除后焦点回到输入框
 - NumberField 支持方向键步进、Shift+方向键跳 5、PageUp/Down 跳 10、Home/End 到边界
 - Accordion 的每个标题都是按钮，方向键在标题间移动，折叠内容同时使用 `inert` 与 `aria-hidden`
 - Tabs 使用 roving tabindex，左右方向键切换，自动跳过禁用项
@@ -380,6 +426,7 @@ const items: InventoryEntry[] = [
 - 库样式为独立 CSS 文件，需要在应用入口手动 `import '@pixelvale/ui/style.css'`
 - 中文像素字体不随库打包，使用 `zh-CN` 时请按上面的字体章节本地引入
 - 仅组件内置文案会翻译；业务内容（商品名、任务标题等）仍由使用方维护
+- TagInput 的标签是用户内容，不作翻译；标签上限、移除按钮和占位符会随 locale 切换
 - Playground 中的背包、金币、任务状态仅存在内存中，刷新后会重置（刻意不写入存储）
 - 没有包含 SSR 专用的水合处理；Portal 在无 `document` 环境不会渲染
 

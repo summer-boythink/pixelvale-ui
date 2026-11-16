@@ -24,17 +24,15 @@ import '@pixelvale/ui/style.css';
 - Ships ESM, CJS, CSS, and TypeScript declarations
 - Themes: `day`, `night`, `autumn` (or override CSS variables)
 - Built-in `en` / `zh-CN` interface strings via `<PixelValeProvider locale="zh-CN">`
+- Breadcrumb, Pagination, Timeline, and TagInput with keyboard and screen-reader support
 - Synthesized WebAudio cues via `useSound()`
 
 ## Locale
 
 ```tsx
-<PixelValeProvider
-  locale="zh-CN"
-  messages={{ closeDialog: '关上' }}
->
+<PixelValeProvider locale="zh-CN" messages={{ closeDialog: '关上' }}>
   <ToastProvider>{children}</ToastProvider>
-</PixelValeProvider>;
+</PixelValeProvider>
 ```
 
 `useLocale()` returns `{ locale, t }`; `t` interpolates `{name}`-style

@@ -10,16 +10,20 @@ import {
 } from '../index';
 import { Alert } from '../components/Alert';
 import { Avatar } from '../components/Avatar';
+import { Breadcrumb } from '../components/Breadcrumb';
 import { CoinDisplay, ProgressBar } from '../components/ProgressBar';
 import { Combobox } from '../components/Combobox';
 import { Dialog } from '../components/Dialog';
 import { InventoryGrid } from '../components/InventoryGrid';
 import { NumberField } from '../components/NumberField';
+import { Pagination } from '../components/Pagination';
 import { Rating } from '../components/Rating';
 import { Select } from '../components/Select';
 import { Sparkline } from '../components/Sparkline';
 import { Steps } from '../components/Steps';
 import { Tabs } from '../components/Tabs';
+import { TagInput } from '../components/TagInput';
+import { Timeline } from '../components/Timeline';
 import { ITEM_FIXTURES } from './fixtures';
 
 function zh(node: ReactNode, messages?: LocaleMessagesOverride) {
@@ -120,6 +124,30 @@ describe('Chinese locale', () => {
   it('falls back to a valid number formatter for unknown locales', () => {
     render(zh(<CoinDisplay value={12} locale="not-a-locale" animate={false} />));
     expect(screen.getByTitle('12 金币')).toBeTruthy();
+  });
+
+  it('localizes breadcrumb, pagination, timeline, and tag input', () => {
+    render(
+      zh(
+        <>
+          <Breadcrumb items={[{ label: '山谷' }]} />
+          <Pagination pageCount={3} defaultPage={2} />
+          <Timeline items={[{ id: 'tea', title: '种茶' }]} />
+          <TagInput label="标签" defaultValue={['春天', '雨天']} maxTags={2} />
+        </>,
+      ),
+    );
+
+    expect(screen.getByRole('navigation', { name: '面包屑导航' })).toBeTruthy();
+    expect(screen.getByRole('navigation', { name: '分页导航' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: '上一页' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: '下一页' })).toBeTruthy();
+    expect(
+      screen.getByRole('button', { name: '第 2 页' }).getAttribute('aria-current'),
+    ).toBe('page');
+    expect(screen.getByRole('list', { name: '时间线' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: '移除春天' })).toBeTruthy();
+    expect(screen.getByText('最多 2 个标签')).toBeTruthy();
   });
 
   it('allows per-key message overrides', () => {

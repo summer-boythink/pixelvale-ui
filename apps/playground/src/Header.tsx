@@ -21,12 +21,20 @@ const THEME_LABELS: Record<PixelValeLocale, Record<DemoTheme, string>> = {
 
 const NAV_LABELS: Record<
   PixelValeLocale,
-  { homestead: string; shelf: string; workshop: string; teahouse: string; notes: string }
+  {
+    homestead: string;
+    shelf: string;
+    workshop: string;
+    ledger: string;
+    teahouse: string;
+    notes: string;
+  }
 > = {
   en: {
     homestead: 'Homestead',
     shelf: 'Shelf',
     workshop: 'Workshop',
+    ledger: 'Ledger',
     teahouse: 'Teahouse',
     notes: 'Craft notes',
   },
@@ -34,6 +42,7 @@ const NAV_LABELS: Record<
     homestead: '农舍',
     shelf: '组件架',
     workshop: '工坊',
+    ledger: '账本',
     teahouse: '茶馆',
     notes: '手记',
   },
@@ -76,6 +85,7 @@ export function Header({ theme, onThemeChange, locale, onLocaleChange }: HeaderP
         <a href="#homestead">{nav.homestead}</a>
         <a href="#shelf">{nav.shelf}</a>
         <a href="#workshop">{nav.workshop}</a>
+        <a href="#ledger">{nav.ledger}</a>
         <a href="#teahouse">{nav.teahouse}</a>
         <a href="#craft-notes">{nav.notes}</a>
       </nav>

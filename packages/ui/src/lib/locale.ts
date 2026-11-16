@@ -44,6 +44,16 @@ export interface LocaleMessages {
   noData: string;
   noDataLabel: string;
   gold: string;
+  breadcrumb: string;
+  pagination: string;
+  previousPage: string;
+  nextPage: string;
+  pageNumber: string;
+  timeline: string;
+  addTag: string;
+  tagsSelected: string;
+  removeTag: string;
+  tagLimit: string;
 }
 
 export type LocaleMessageKey = keyof LocaleMessages;
@@ -98,6 +108,16 @@ const EN: LocaleMessages = {
   noData: 'No data',
   noDataLabel: '{label}: no data',
   gold: 'gold',
+  breadcrumb: 'Breadcrumb',
+  pagination: 'Pagination',
+  previousPage: 'Previous page',
+  nextPage: 'Next page',
+  pageNumber: 'Page {page}',
+  timeline: 'Timeline',
+  addTag: 'Add a tag',
+  tagsSelected: 'Selected tags',
+  removeTag: 'Remove {tag}',
+  tagLimit: 'Up to {count} tags',
 };
 
 const ZH_CN: LocaleMessages = {
@@ -144,6 +164,16 @@ const ZH_CN: LocaleMessages = {
   noData: '暂无数据',
   noDataLabel: '{label}：暂无数据',
   gold: '金币',
+  breadcrumb: '面包屑导航',
+  pagination: '分页导航',
+  previousPage: '上一页',
+  nextPage: '下一页',
+  pageNumber: '第 {page} 页',
+  timeline: '时间线',
+  addTag: '添加标签',
+  tagsSelected: '已选标签',
+  removeTag: '移除{tag}',
+  tagLimit: '最多 {count} 个标签',
 };
 
 const BASE_MESSAGES: Record<PixelValeLocale, LocaleMessages> = {

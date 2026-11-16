@@ -11,6 +11,7 @@ import { Gallery } from './Gallery';
 import { Header } from './Header';
 import { Hero } from './Hero';
 import { Teahouse } from './Teahouse';
+import { TownLedger } from './TownLedger';
 import { Workshop } from './Workshop';
 import type { DemoTheme } from './data';
 
@@ -159,6 +160,7 @@ function Shell({
           <FarmHud gold={gold} setGold={setGold} />
           <Gallery gold={gold} setGold={setGold} />
           <Workshop gold={gold} />
+          <TownLedger />
           <Teahouse />
           <CraftNotes />
         </main>
