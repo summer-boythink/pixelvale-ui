@@ -60,6 +60,24 @@ export interface LocaleMessages {
   nextMonth: string;
   table: string;
   tree: string;
+  loading: string;
+  selectDate: string;
+  chooseDate: string;
+  clearDate: string;
+  carousel: string;
+  slide: string;
+  previousSlide: string;
+  nextSlide: string;
+  goToSlide: string;
+  slideOf: string;
+  dropFiles: string;
+  browseFiles: string;
+  selectedFiles: string;
+  removeFile: string;
+  filesSkipped: string;
+  fileTooLarge: string;
+  fileTypeRejected: string;
+  tooManyFiles: string;
 }
 
 export type LocaleMessageKey = keyof LocaleMessages;
@@ -130,6 +148,24 @@ const EN: LocaleMessages = {
   nextMonth: 'Next month',
   table: 'Data table',
   tree: 'Tree',
+  loading: 'Loading',
+  selectDate: 'Select a date',
+  chooseDate: 'Choose a date',
+  clearDate: 'Clear date',
+  carousel: 'Carousel',
+  slide: 'Slide',
+  previousSlide: 'Previous slide',
+  nextSlide: 'Next slide',
+  goToSlide: 'Go to slide {index}',
+  slideOf: 'Slide {index} of {total}',
+  dropFiles: 'Drag files here, or browse',
+  browseFiles: 'Browse files',
+  selectedFiles: 'Selected files',
+  removeFile: 'Remove {name}',
+  filesSkipped: 'Some files were skipped.',
+  fileTooLarge: '{name} is too large',
+  fileTypeRejected: '{name} is not an accepted type',
+  tooManyFiles: 'Up to {count} file(s)',
 };
 
 const ZH_CN: LocaleMessages = {
@@ -192,6 +228,24 @@ const ZH_CN: LocaleMessages = {
   nextMonth: '下个月',
   table: '数据表',
   tree: '树形列表',
+  loading: '加载中',
+  selectDate: '选择日期',
+  chooseDate: '选择日期',
+  clearDate: '清除日期',
+  carousel: '轮播图',
+  slide: '幻灯片',
+  previousSlide: '上一张',
+  nextSlide: '下一张',
+  goToSlide: '转到第 {index} 张',
+  slideOf: '第 {index} 张，共 {total} 张',
+  dropFiles: '拖放文件到这里，或点击浏览',
+  browseFiles: '浏览文件',
+  selectedFiles: '已选文件',
+  removeFile: '移除{name}',
+  filesSkipped: '部分文件已跳过。',
+  fileTooLarge: '{name} 超过大小限制',
+  fileTypeRejected: '{name} 类型不支持',
+  tooManyFiles: '最多 {count} 个文件',
 };
 
 const BASE_MESSAGES: Record<PixelValeLocale, LocaleMessages> = {

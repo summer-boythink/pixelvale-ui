@@ -11,6 +11,7 @@ import { Gallery } from './Gallery';
 import { Header } from './Header';
 import { Hero } from './Hero';
 import { Almanac } from './Almanac';
+import { Stillroom } from './Stillroom';
 import { Teahouse } from './Teahouse';
 import { TownLedger } from './TownLedger';
 import { Workshop } from './Workshop';
@@ -163,6 +164,7 @@ function Shell({
           <Workshop gold={gold} />
           <TownLedger />
           <Almanac />
+          <Stillroom />
           <Teahouse />
           <CraftNotes />
         </main>

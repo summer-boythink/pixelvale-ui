@@ -24,7 +24,10 @@ export type PixelIconName =
   | 'bolt'
   | 'clock'
   | 'leaf'
-  | 'sparkle';
+  | 'sparkle'
+  | 'calendar'
+  | 'upload'
+  | 'file';
 
 const ICONS: Record<PixelIconName, ReactNode> = {
   close: <path d="M6 6 18 18M18 6 6 18" />,
@@ -98,6 +101,25 @@ const ICONS: Record<PixelIconName, ReactNode> = {
   ),
   sparkle: (
     <path d="M12 3v6M12 15v6M3 12h6M15 12h6M6 6l2 2M16 16l2 2M18 6l-2 2M8 16l-2 2" />
+  ),
+  calendar: (
+    <>
+      <path d="M4 6h16v15H4z" />
+      <path d="M4 10h16M8 3v4M16 3v4" />
+      <path d="M8 14h2M12 14h2M16 14h2M8 17h2M12 17h2" />
+    </>
+  ),
+  upload: (
+    <>
+      <path d="M12 16V4M7 9l5-5 5 5" />
+      <path d="M4 16v4h16v-4" />
+    </>
+  ),
+  file: (
+    <>
+      <path d="M6 3h8l4 4v14H6z" />
+      <path d="M14 3v4h4" />
+    </>
   ),
 };
 

@@ -164,3 +164,17 @@ export {
   type DataTableSortDirection,
 } from './components/DataTable';
 export { TreeView, type TreeNode, type TreeViewProps } from './components/TreeView';
+export {
+  Spinner,
+  type SpinnerProps,
+  type SpinnerSize,
+  type SpinnerTone,
+} from './components/Spinner';
+export { DatePicker, type DatePickerProps } from './components/DatePicker';
+export {
+  FileDropzone,
+  type FileDropzoneProps,
+  type FileRejection,
+  type FileRejectionReason,
+} from './components/FileDropzone';
+export { Carousel, type CarouselItem, type CarouselProps } from './components/Carousel';

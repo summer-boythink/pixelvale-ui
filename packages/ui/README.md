@@ -26,6 +26,7 @@ import '@pixelvale/ui/style.css';
 - Built-in `en` / `zh-CN` interface strings via `<PixelValeProvider locale="zh-CN">`
 - Breadcrumb, Pagination, Timeline, and TagInput with keyboard and screen-reader support
 - Popover, Calendar, DataTable, and TreeView for overlays, dates, tables, and nested data
+- DatePicker, FileDropzone, Carousel, and Spinner for forms, uploads, and feedback
 - Synthesized WebAudio cues via `useSound()`
 
 ## Locale

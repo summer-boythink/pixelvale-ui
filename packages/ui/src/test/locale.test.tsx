@@ -12,10 +12,13 @@ import { Alert } from '../components/Alert';
 import { Avatar } from '../components/Avatar';
 import { Breadcrumb } from '../components/Breadcrumb';
 import { Calendar } from '../components/Calendar';
+import { Carousel } from '../components/Carousel';
 import { CoinDisplay, ProgressBar } from '../components/ProgressBar';
 import { Combobox } from '../components/Combobox';
 import { DataTable } from '../components/DataTable';
+import { DatePicker } from '../components/DatePicker';
 import { Dialog } from '../components/Dialog';
+import { FileDropzone } from '../components/FileDropzone';
 import { InventoryGrid } from '../components/InventoryGrid';
 import { NumberField } from '../components/NumberField';
 import { Pagination } from '../components/Pagination';
@@ -23,6 +26,7 @@ import { Popover } from '../components/Popover';
 import { Rating } from '../components/Rating';
 import { Select } from '../components/Select';
 import { Sparkline } from '../components/Sparkline';
+import { Spinner } from '../components/Spinner';
 import { Steps } from '../components/Steps';
 import { Tabs } from '../components/Tabs';
 import { TagInput } from '../components/TagInput';
@@ -181,6 +185,37 @@ describe('Chinese locale', () => {
     expect(screen.getByRole('tree', { name: '树形列表' })).toBeTruthy();
     expect(screen.getByRole('treeitem', { name: '春天' })).toBeTruthy();
     expect(screen.getByRole('dialog', { name: '详情' })).toBeTruthy();
+  });
+
+  it('localizes spinner, date picker, dropzone, and carousel', () => {
+    const file = new File(['x'], 'seed.png', { type: 'image/png' });
+    render(
+      zh(
+        <>
+          <Spinner />
+          <DatePicker defaultValue="2026-03-12" today="2026-03-15" />
+          <DatePicker today="2026-03-15" />
+          <FileDropzone label="卡片" defaultFiles={[file]} />
+          <Carousel
+            items={[
+              { id: 'a', content: '甲' },
+              { id: 'b', content: '乙' },
+            ]}
+          />
+        </>,
+      ),
+    );
+
+    expect(screen.getByRole('status', { name: '加载中' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: '2026年3月12日' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: '清除日期' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: '选择日期' })).toBeTruthy();
+    expect(screen.getByRole('list', { name: '已选文件' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: '移除seed.png' })).toBeTruthy();
+    expect(screen.getByRole('region', { name: '轮播图' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: '上一张' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: '下一张' })).toBeTruthy();
+    expect(screen.getByText('第 1 张，共 2 张')).toBeTruthy();
   });
 
   it('allows per-key message overrides', () => {

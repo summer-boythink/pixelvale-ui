@@ -62,6 +62,9 @@
     "calendar",
     "data-table",
     "tree-view",
-    "popover"
+    "popover",
+    "date-picker",
+    "file-upload",
+    "carousel"
   ]
 }
