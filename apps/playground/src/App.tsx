@@ -125,7 +125,9 @@ function Footer() {
         <a href="#shelf">Components</a>
         <a href="#workshop">Workshop</a>
         <a href="#top">Back to top ↑</a>
-        <a href="/FUSION-PIXEL-OFL.txt">Fusion Pixel · OFL-1.1</a>
+        <a href={`${import.meta.env.BASE_URL}FUSION-PIXEL-OFL.txt`}>
+          Fusion Pixel · OFL-1.1
+        </a>
       </nav>
     </footer>
   );

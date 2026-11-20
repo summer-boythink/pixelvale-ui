@@ -4,7 +4,10 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
   plugins: [react()],
-  base: './',
+  // Local builds use relative assets. The Pages workflow sets
+  // PLAYGROUND_BASE=/pixelvale-ui/ so deep links and the 404 fallback resolve
+  // every asset from the project site instead of the domain root.
+  base: process.env.PLAYGROUND_BASE ?? './',
   resolve: {
     alias: {
       '@pixelvale/ui': fileURLToPath(

@@ -2,6 +2,8 @@
 
 一套手写的**星露谷风格** React + TypeScript UI 组件库，包含组件库本体和一个可交互的农场主题 Playground。
 
+**在线演示（GitHub Pages）：<https://summer-boythink.github.io/pixelvale-ui/>**
+
 - 木框、羊皮纸、像素投影、金色描边
 - 动作菜单、折叠面板、原生单选、数量步进、侧边抽屉、步骤条、统计块、骨架屏
 - 可搜索 Combobox、星级评分、像素 Sparkline、头像与状态点
@@ -56,6 +58,25 @@ npm run build:lib    # 只构建 @pixelvale/ui
 npm run preview      # 预览 Playground 的构建产物
 npm run format       # Prettier 格式化
 npm run format:check # 检查格式
+```
+
+## GitHub Pages
+
+Playground 使用 [`.github/workflows/pages.yml`](.github/workflows/pages.yml) 自动部署到
+**<https://summer-boythink.github.io/pixelvale-ui/>**：
+
+- 推送到 `main`（Playground / 组件库有改动时）或手动运行 `Deploy playground to GitHub Pages`
+- 工作流依次执行 `npm ci`、类型检查、组件测试、库与 Playground 构建
+- 构建时设置 `PLAYGROUND_BASE=/pixelvale-ui/`，保证项目站点的资源路径正确
+- 同时生成 `404.html` 与 `.nojekyll`，静态托管时深链接和字体文件都能正常访问
+- 首次运行由 `actions/configure-pages` 自动启用 Pages；也可以在仓库
+  **Settings → Pages → Build and deployment → Source** 中选择 **GitHub Actions**
+
+本地验证 Pages 构建：
+
+```bash
+PLAYGROUND_BASE=/pixelvale-ui/ npm run build
+npm run preview
 ```
 
 ## 在项目中使用
