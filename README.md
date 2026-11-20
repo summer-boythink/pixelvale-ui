@@ -19,7 +19,7 @@
 - 0 个生产运行时依赖（peer 依赖仅 React / ReactDOM）
 - 组件测试、类型检查、库构建与示例站构建全部通过
 
-![demo](https://img.shields.io/badge/demo-local%20playground-78ab4f) ![react](https://img.shields.io/badge/react-18.3%20%7C%2019-5a9bd4) ![typescript](https://img.shields.io/badge/typescript-5.9-3178c6)
+[![demo](https://img.shields.io/badge/demo-GitHub%20Pages-78ab4f)](https://summer-boythink.github.io/pixelvale-ui/) ![react](https://img.shields.io/badge/react-18.3%20%7C%2019-5a9bd4) ![typescript](https://img.shields.io/badge/typescript-5.9-3178c6)
 
 ---
 
